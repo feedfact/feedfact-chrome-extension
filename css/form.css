@@ -1,0 +1,17 @@
+body : {
+  width: 100px;
+}
+#ff_form : {
+    position:fixed;
+    bottom:0;
+    right:0;
+    z-index:9999;
+    background-color:rgba(0,0,0,.8);
+    text-align:right;
+    color:white;
+    font-size:12px;
+    line-height:1.8;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding:5px;
+    border-radius:5px;
+}
