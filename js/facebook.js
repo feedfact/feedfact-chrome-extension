@@ -100,7 +100,7 @@ var request = new XMLHttpRequest();
       }
   };
 
-  request.open("GET", "https://api.feedfact.org/feedfact?TableName=Articles&url="+link,true);
+  request.open("GET", "https://api.feedfact.org/feedfact?TableName=Articles&title="+link,true);
   request.setRequestHeader("x-api-key",items['ff-api-key'])
   //
   ffQueue.push(request);

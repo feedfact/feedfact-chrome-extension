@@ -59,7 +59,8 @@ var rate = function() {
     rating = true;
     var base = {"TableName" : "Rankings",
         "Item" : {
-            "url" : decodeURIComponent(getTitle()).replace("|"," "),
+            "title" : decodeURIComponent(getTitle()).replace("|"," "),
+            "url" : document.location.href,
             "ranking" : {
                 "misconstrued" : {
                     "value": document.querySelector("#ff_misconstrued").value/100
@@ -201,7 +202,7 @@ chrome.storage.sync.get(['ff-api-key'], function(items) {
       }
   };
 
-  request.open("GET", "https://api.feedfact.org/feedfact?TableName=Articles&url="+decodeURIComponent(getTitle()).replace("|"," "),true);
+  request.open("GET", "https://api.feedfact.org/feedfact?TableName=Articles&title="+decodeURIComponent(getTitle()).replace("|"," "),true);
   request.setRequestHeader("x-api-key",items['ff-api-key'])
   request.send();
 });
