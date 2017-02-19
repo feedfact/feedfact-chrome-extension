@@ -43,7 +43,6 @@ var request = new XMLHttpRequest();
       }
   };
 
-  //request.open("GET", "https://clickbait-detector.herokuapp.com/detect?headline="+link , true);
   request.open("GET", "https://api.feedfact.org/feedfact?TableName=Articles&url="+link,true);
   request.setRequestHeader("x-api-key",items['ff-api-key'])
   //

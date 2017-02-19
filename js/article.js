@@ -105,20 +105,6 @@ var rate = function() {
 function createRater(score) {
   var container = document.createElement("div");
   container.setAttribute("id","ff_form");
-  var style = [
-    "position:fixed",
-    "bottom:0",
-    "right:0",
-    "z-index:9999",
-    "background-color:rgba(0,0,0,.8)",
-    "text-align:right",
-    "color:white",
-    "font-size:12px",
-    "line-height:1.8",
-    "font-family:\"Helvetica Neue\", Helvetica, Arial, sans-serif",
-    "padding:5px",
-    "border-radius:5px"
-  ];
   style_injector({
     "#ff_form": {
       "position":"fixed",
@@ -145,8 +131,7 @@ function createRater(score) {
       "color":"#ff2e88"
     },
   });
-  var str = "<div class=\"head\"><a href=\"feedfact.org\">FeedFact.org</a></div>";
-  str += "<div>misconstrued :<input id=\"ff_misconstrued\"  type=\"range\" min=\"0\" max=\"100\"></div>";
+  var str = "<div>misconstrued :<input id=\"ff_misconstrued\"  type=\"range\" min=\"0\" max=\"100\"></div>";
   str += "<div>opinionated :<input id=\"ff_opinionated\" type=\"range\" min=\"0\" max=\"100\"></div>";
   str += "<div>clickbait :<input id=\"ff_clickbait\" type=\"range\" min=\"0\" max=\"100\"></div>";
   str += "<div>informative :<input id=\"ff_informative\" type=\"range\" min=\"0\" max=\"100\"></div>";
@@ -164,4 +149,59 @@ if (got_article) {
   },100);
 }
 
+var renderResults = function(data) {
+  //var container = document.createElement("div");
+  //container.setAttribute("id","ff_results");
+  container = document.getElementById("ff_form")
 
+    /*
+  style_injector({
+    "#ff_rate" : {
+      "position":"fixed",
+      "bottom":"10px",
+      "left":"10px",
+      "z-index":"999999",
+      "background-color":"rgba(0,0,0,.9)",
+      "text-align":"right",
+      "color":"white",
+      "font-size":"12px",
+      "line-height":"1.8",
+      "font-family":"\"Helvetica Neue\", Helvetica, Arial, sans-serif",
+      "padding":"5px",
+      "border-radius":"5px"
+    }
+  })*/
+
+
+  var str = "<div class=\"head\"><a href=\"feedfact.org\">FeedFact.org</a></div>";
+  //str += "<ul>Feedfact.org ranked this "+data.Item.rankings.cited.samples+" times";
+
+  Object.keys(data.Item.rankings).forEach(function(a) {
+    str += "<div style=\"margin-bottom:2px;display:block;background-color:#ff2e88;text-align:right;width:"+(data.Item.rankings[a].avg*100)+"%\">&nbsp;<span style=\"position:absolute;left:0px;padding-left:7px;\">"+(Math.round(data.Item.rankings[a].avg * 100)) +"% "+a+"</span></div>"
+  });
+
+
+  container.innerHTML = str + container.innerHTML;
+
+  document.getElementById("ff_rate").addEventListener("click", rate);
+}
+
+
+chrome.storage.sync.get(['ff-api-key'], function(items) {
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+          if (request.status === 200) {
+              var data = JSON.parse(request.responseText);
+              console.log(data);
+              if (data && data.Item) {
+                renderResults(data);
+              }
+          }
+      }
+  };
+
+  request.open("GET", "https://api.feedfact.org/feedfact?TableName=Articles&url="+decodeURIComponent(getTitle()).replace("|"," "),true);
+  request.setRequestHeader("x-api-key",items['ff-api-key'])
+  request.send();
+});
