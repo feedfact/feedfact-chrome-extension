@@ -1,1 +1,1 @@
-zip feedfact-chrome-extension.zip * -x *.git*
+zip -r feedfact-chrome-extension.zip * -x *.git*
