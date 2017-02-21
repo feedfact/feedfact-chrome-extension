@@ -69,7 +69,7 @@ setInterval(function() {
 },1000);
 
 
-const facebook_clickbait = function(node) {
+const checkstuff = function(node) {
 
   const images = [...node.getElementsByClassName('mbs _6m6 _2cnj _5s6c')];
 
@@ -80,6 +80,7 @@ const facebook_clickbait = function(node) {
   }
 
   chrome.storage.sync.get(['ff-api-key'], function(items) {
+    if (items['ff-api-key'] && items['ff-api-key'] != '') {
 var request = new XMLHttpRequest();
   request.onreadystatechange = function() {
       if (request.readyState === 4) {
@@ -105,7 +106,9 @@ var request = new XMLHttpRequest();
   //
   ffQueue.push(request);
     //request.send();
+  }
   });
+
   });
 
 };
@@ -114,7 +117,7 @@ const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
         mutation.addedNodes.forEach(function(node) {
             if (node.nodeType === 1) { // ELEMENT_NODE
-                facebook_clickbait(node);
+                checkstuff(node);
             }
         });
     });
@@ -124,4 +127,4 @@ const config = { attributes: false, childList: true, characterData: false, subtr
 
 observer.observe(document.body, config);
 
-facebook_clickbait(document.body);
+checkstuff(document.body);

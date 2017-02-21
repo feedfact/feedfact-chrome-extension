@@ -93,7 +93,7 @@ var rate = function() {
           dataType: "json",
           headers : { "x-api-key" : items['ff-api-key'],"Content-Type" :"application/json"}
       }).done(function(data) {
-        console.log("posted");
+        alert("Thanks for ranking, and keep them comming!");
       });
     });
     rating=false;
