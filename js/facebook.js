@@ -27,7 +27,7 @@ style_injector({
     "background-color" : "rgba(0,0,0,0.8)",
     "color" : "#fff",
     "border-radius" : "5px",
-    "width" : "100px",
+    "width" : "106px",
     "left" : "-7px"
   },
   ".ff-title a" : {
